@@ -1,2 +1,2 @@
 # Shri_Ram_Traders
-Web Application for Wholesale Grocery Store
+Web Application for online Clothing Store
