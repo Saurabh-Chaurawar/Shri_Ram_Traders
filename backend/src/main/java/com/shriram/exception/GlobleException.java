@@ -72,7 +72,7 @@ public class GlobleException {
 	public ResponseEntity<ErrorDetails> otherExceptionHandler(Exception e, WebRequest req){
 		ErrorDetails error=new ErrorDetails(e.getMessage(),req.getDescription(false),LocalDateTime.now());
 		
-		return new ResponseEntity<ErrorDetails>(error,HttpStatus.ACCEPTED);
+		return new ResponseEntity<ErrorDetails>(error,HttpStatus.BAD_REQUEST);
 	}
 
 }
