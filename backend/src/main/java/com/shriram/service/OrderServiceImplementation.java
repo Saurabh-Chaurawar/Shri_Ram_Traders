@@ -2,12 +2,12 @@ package com.shriram.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shriram.entities.Address;
 import com.shriram.entities.Cart;
@@ -21,28 +21,23 @@ import com.shriram.repository.OrderItemRepository;
 import com.shriram.repository.OrderRepository;
 import com.shriram.repository.UserRepository;
 import com.shriram.user.constants.OrderStatus;
-import com.shriram.user.constants.PaymentStatus;
 
 @Service
+@Transactional
 public class OrderServiceImplementation implements OrderService {
 	
+	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
 	private CartService cartService;
+	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
 	private OrderItemService orderItemService;
+	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
-	public OrderServiceImplementation(OrderRepository orderRepository,CartService cartService,
-			AddressRepository addressRepository,UserRepository userRepository,
-			OrderItemService orderItemService,OrderItemRepository orderItemRepository) {
-		this.orderRepository=orderRepository;
-		this.cartService=cartService;
-		this.addressRepository=addressRepository;
-		this.userRepository=userRepository;
-		this.orderItemService=orderItemService;
-		this.orderItemRepository=orderItemRepository;
-	}
 
 	@Override
 	public Order createOrder(User user, Address shippAddress) {
@@ -83,7 +78,6 @@ public class OrderServiceImplementation implements OrderService {
 		createdOrder.setShippingAddress(address);
 		createdOrder.setOrderDate(LocalDateTime.now());
 		createdOrder.setOrderStatus(OrderStatus.PENDING);
-		createdOrder.getPaymentDetails().setStatus(PaymentStatus.PENDING);
 		createdOrder.setCreatedAt(LocalDateTime.now());
 		
 		Order savedOrder=orderRepository.save(createdOrder);
@@ -101,7 +95,6 @@ public class OrderServiceImplementation implements OrderService {
 	public Order placedOrder(Long orderId) throws OrderException {
 		Order order=findOrderById(orderId);
 		order.setOrderStatus(OrderStatus.PLACED);
-		order.getPaymentDetails().setStatus(PaymentStatus.COMPLETED);
 		return order;
 	}
 

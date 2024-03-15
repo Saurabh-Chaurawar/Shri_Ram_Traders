@@ -5,7 +5,7 @@ public enum ProductSubCategory {
 	SHIRT,
 	TSHIRT,
 	SHOES,
-	PAINT,
+	PANT,
 	SAREE,
 	KURTA,
 	WATCH

@@ -1,5 +1,6 @@
-package com.shriram.controller;
+ package com.shriram.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,6 +22,7 @@ import com.shriram.request.LoginRequest;
 import com.shriram.response.AuthResponse;
 import com.shriram.service.CartService;
 import com.shriram.service.CustomUserDetails;
+import com.shriram.user.constants.UserRole;
 
 import javax.validation.Valid;
 
@@ -28,19 +30,17 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	@Autowired
 	private CustomUserDetails customUserDetails;
+	@Autowired
 	private CartService cartService;
 	
-	public AuthController(UserRepository userRepository,PasswordEncoder passwordEncoder,JwtTokenProvider jwtTokenProvider,CustomUserDetails customUserDetails,CartService cartService) {
-		this.userRepository=userRepository;
-		this.passwordEncoder=passwordEncoder;
-		this.jwtTokenProvider=jwtTokenProvider;
-		this.customUserDetails=customUserDetails;
-		this.cartService=cartService;
-	}
 	
 	@PostMapping("/signup")
 	public ResponseEntity<AuthResponse> createUserHandler(@Valid @RequestBody User user) throws UserException{
@@ -49,7 +49,7 @@ public class AuthController {
 	        String password = user.getPassword();
 	        String firstName=user.getFirstName();
 	        String lastName=user.getLastName();
-	        String role=user.getRole();
+	        UserRole role=user.getRole();
 	        
 	        User isEmailExist=userRepository.findByEmail(email);
 
@@ -94,10 +94,7 @@ public class AuthController {
         
         
         String token = jwtTokenProvider.generateToken(authentication);
-        AuthResponse authResponse= new AuthResponse();
-		
-		authResponse.setStatus(true);
-		authResponse.setJwt(token);
+        AuthResponse authResponse= new AuthResponse(token,true);
 		
         return new ResponseEntity<AuthResponse>(authResponse,HttpStatus.OK);
     }

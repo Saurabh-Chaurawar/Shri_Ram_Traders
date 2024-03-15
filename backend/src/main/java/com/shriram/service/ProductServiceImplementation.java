@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shriram.entities.Category;
 import com.shriram.entities.Product;
@@ -21,17 +23,15 @@ import com.shriram.request.CreateProductRequest;
 import com.shriram.user.constants.ProductSubCategory;
 
 @Service
+@Transactional
 public class ProductServiceImplementation implements ProductService {
 	
+	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
 	private UserService userService;
+	@Autowired
 	private CategoryRepository categoryRepository;
-	
-	public ProductServiceImplementation(ProductRepository productRepository,UserService userService,CategoryRepository categoryRepository) {
-		this.productRepository=productRepository;
-		this.userService=userService;
-		this.categoryRepository=categoryRepository;
-	}
 	
 
 	@Override
@@ -52,23 +52,23 @@ public class ProductServiceImplementation implements ProductService {
 				findByNameAndParant(req.getSecondLevelCategory(),topLevel.getName());
 		if(secondLevel==null) {
 			
-			Category secondLavelCategory=new Category();
-			secondLavelCategory.setName(req.getSecondLevelCategory());
-			secondLavelCategory.setParentCategory(topLevel);
-			secondLavelCategory.setLevel(2);
+			Category secondLevelCategory=new Category();
+			secondLevelCategory.setName(req.getSecondLevelCategory());
+			secondLevelCategory.setParentCategory(topLevel);
+			secondLevelCategory.setLevel(2);
 			
-			secondLevel= categoryRepository.save(secondLavelCategory);
+			secondLevel= categoryRepository.save(secondLevelCategory);
 		}
 
 		Category thirdLevel=categoryRepository.findByNameAndParant(req.getThirdLevelCategory(),secondLevel.getName());
 		if(thirdLevel==null) {
 			
-			Category thirdLavelCategory=new Category();
-			thirdLavelCategory.setName(req.getThirdLevelCategory());
-			thirdLavelCategory.setParentCategory(secondLevel);
-			thirdLavelCategory.setLevel(3);
+			Category thirdLevelCategory=new Category();
+			thirdLevelCategory.setName(req.getThirdLevelCategory());
+			thirdLevelCategory.setParentCategory(secondLevel);
+			thirdLevelCategory.setLevel(3);
 			
-			thirdLevel=categoryRepository.save(thirdLavelCategory);
+			thirdLevel=categoryRepository.save(thirdLevelCategory);
 		}
 		
 		
@@ -100,8 +100,7 @@ public class ProductServiceImplementation implements ProductService {
 		
 		System.out.println("delete product "+product.getId()+" - "+productId);
 		product.getSizes().clear();
-//		productRepository.save(product);
-//		product.getCategory().
+
 		productRepository.delete(product);
 		
 		return "Product deleted Successfully";

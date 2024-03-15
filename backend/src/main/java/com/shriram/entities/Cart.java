@@ -34,8 +34,10 @@ public class Cart {
     @Column(name="total_item")
     private int totalItem;
     
+    @Column
     private int totalDiscountedPrice;
     
+    @Column
     private int discount;
     
 	public Cart() {

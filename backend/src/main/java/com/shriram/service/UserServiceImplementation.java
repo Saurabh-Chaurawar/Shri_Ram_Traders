@@ -3,7 +3,9 @@ package com.shriram.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shriram.config.JwtTokenProvider;
 import com.shriram.entities.User;
@@ -11,18 +13,14 @@ import com.shriram.exception.UserException;
 import com.shriram.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserServiceImplementation implements UserService {
 	
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 	
-	public UserServiceImplementation(UserRepository userRepository,JwtTokenProvider jwtTokenProvider) {
-		
-		this.userRepository=userRepository;
-		this.jwtTokenProvider=jwtTokenProvider;
-		
-	}
-
 	@Override
 	public User findUserById(Long userId) throws UserException {
 		Optional<User> user=userRepository.findById(userId);

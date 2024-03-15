@@ -42,6 +42,7 @@ public class Address {
     @JsonIgnore
     private User user;
     
+    @Column
     private String mobile;
     
 	public Address() {

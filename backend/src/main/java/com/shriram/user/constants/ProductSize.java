@@ -8,6 +8,5 @@ public enum ProductSize {
 	    L,
 	    XL,
 	    XXL,
-	    XXXL,
-	    XXXXL
+	    XXXL
 }

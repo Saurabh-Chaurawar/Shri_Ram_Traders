@@ -2,6 +2,7 @@ package com.shriram.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shriram.entities.Product;
 import com.shriram.exception.ProductException;
 import com.shriram.service.ProductService;
-import com.shriram.user.constants.ProductSubCategory;
 
 @RestController
 @RequestMapping("/api")
 public class UserProductController {
 	
+	@Autowired
 	private ProductService productService;
-	
-	public UserProductController(ProductService productService) {
-		this.productService=productService;
-	}
 	
 	
 	@GetMapping("/products")

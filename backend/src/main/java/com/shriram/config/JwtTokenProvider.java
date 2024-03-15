@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 
 		String jwt=Jwts.builder()
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime()+86400000))
+				.setExpiration(new Date(new Date().getTime()+86400000)) //JWT expiration timeout in millisecond : 24*3600*1000
 				.claim("email",auth.getName())
 				.signWith(key)
 				.compact();

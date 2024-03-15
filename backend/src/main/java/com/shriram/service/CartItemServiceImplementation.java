@@ -2,7 +2,9 @@ package com.shriram.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shriram.entities.Cart;
 import com.shriram.entities.CartItem;
@@ -14,16 +16,15 @@ import com.shriram.repository.CartItemRepository;
 import com.shriram.repository.CartRepository;
 
 @Service
+@Transactional
 public class CartItemServiceImplementation implements CartItemService {
 	
+	@Autowired
 	private CartItemRepository cartItemRepository;
+	@Autowired
 	private UserService userService;
+	@Autowired
 	private CartRepository cartRepository;
-	
-	public CartItemServiceImplementation(CartItemRepository cartItemRepository,UserService userService) {
-		this.cartItemRepository=cartItemRepository;
-		this.userService=userService;
-	}
 
 	@Override
 	public CartItem createCartItem(CartItem cartItem) {

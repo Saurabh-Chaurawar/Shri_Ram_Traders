@@ -27,6 +27,7 @@ public class Category {
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
+    @Column
     private int level;
     
     

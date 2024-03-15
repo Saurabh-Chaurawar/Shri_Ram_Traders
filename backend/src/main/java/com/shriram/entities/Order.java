@@ -4,7 +4,6 @@ package com.shriram.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,26 +36,31 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Column
     private LocalDateTime orderDate;
 
+    @Column
     private LocalDateTime deliveryDate;
 
     @OneToOne
     private Address shippingAddress;
 
-    @Embedded
-    private PaymentDetails paymentDetails=new PaymentDetails();
-
+    @Column
     private double totalPrice;
     
+    @Column
     private Integer totalDiscountedPrice;
     
+    @Column
     private Integer discount;
 
+    @Column
     private OrderStatus orderStatus;
     
+    @Column
     private int totalItem;
     
+    @Column
     private LocalDateTime createdAt;
 
     public Order() {
@@ -143,14 +147,6 @@ public class Order {
 		this.shippingAddress = shippingAddress;
 	}
 
-	public PaymentDetails getPaymentDetails() {
-		return paymentDetails;
-	}
-
-	public void setPaymentDetails(PaymentDetails paymentDetails) {
-		this.paymentDetails = paymentDetails;
-	}
-
 	public double getTotalPrice() {
 		return totalPrice;
 	}
@@ -175,7 +171,6 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-    // constructors, getters and setters
     
     
 }

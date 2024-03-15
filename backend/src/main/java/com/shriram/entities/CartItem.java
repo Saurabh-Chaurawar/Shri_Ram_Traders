@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,14 +25,19 @@ public class CartItem {
 	@ManyToOne
 	private Product product;
 	
+	@Column
 	private String size;
 	
+	@Column
 	private int quantity;
 	
+	@Column
 	private Integer price;
 	
+	@Column
 	private Integer discountedPrice;
 	
+	@Column
 	private Long userId;
 	
 	public CartItem() {
